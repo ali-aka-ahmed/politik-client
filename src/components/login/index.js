@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
 import { View, Text } from "react-native";
-import { Button } from "native-base";
+import { Button, Container, Form, Item, Input, Label } from "native-base";
 import { Actions } from "react-native-router-flux";
 
+// TODO: change Item to have success prop if username or password is in database
 export default class Login extends Component {
 
     render() {
         return (
-            <View>
-                <Button onPress={() => {Actions.launch()}}><Text>Launch</Text></Button>
-            </View>
+            <Container>
+                <Button transparent>
+                    <Icon name='ion-close' />
+                </Button>
+                <Form>
+                    <Item inlineLabel>
+                        <Label>Username</Label>
+                        <Input />
+                    </Item>
+                    <Item inlineLabel last>
+                        <Label>Password</Label>
+                        <Input />
+                    </Item>
+                </Form>
+                <Button onPress={() => {Actions.pop()}}>
+                    <Text>Log in</Text>
+                </Button>
+            </Container>
         );
     }
 }

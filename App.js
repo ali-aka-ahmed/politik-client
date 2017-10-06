@@ -22,9 +22,9 @@ export default class App extends React.Component {
             <Provider appState={appState}>
                 <Router>
                   <Stack key="root" hideNavBar hideTabBar>
-                      <Scene modal >
-                        <Scene key="launch" component={Launch}/>
-                        <Scene key="login" component={Login}/>
+                      <Scene hideNavBar hideTabBar modal>
+                          <Scene key="launch" component={Launch}/>
+                          <Scene key="login" component={Login}/>
                       </Scene>
                       <Scene key="billList" component={BillList}/>
                       <Scene key="bill" component={Bill}/>
