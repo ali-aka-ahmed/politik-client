@@ -8,7 +8,7 @@ const BillListItem = ({bill}) => {
     return (
         <ListItem onPress={() => {Actions.billPage({bill})}} style={styles.container}>
             <Body style={styles.listItemBody}>
-                <Text style={styles.listItemTitle}>{bill.name}</Text>
+                <Text style={styles.listItemTitle}>{bill.title}</Text>
                 <Text style={styles.subheading}>{bill.number}</Text>
             </Body>
             <Right style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end'}}>

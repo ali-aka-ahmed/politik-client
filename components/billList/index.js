@@ -6,6 +6,7 @@ import {Container, Content, ListItem, Body, Text, Header, Left, Right, Button, I
 import styles from './styles'
 
 const BillList = (props) => {
+
     return (
         <Container style={styles.container}>
             <Header hasTabs style={styles.header} backgroundColor={styles.header.backgroundColor}>
@@ -29,7 +30,7 @@ const BillList = (props) => {
                 {
                     props.appState.bills.map((bill) => {
                         return (
-                            <BillListItem bill={bill} key={bill.number}/>
+                            <BillListItem bill={bill} key={bill.bill_id}/>
                         )
                     })
                 }

@@ -44,15 +44,8 @@
 // export default bills;
 
 
-// note return { results : value } from api from transport layer
+// note return { results : { bills : VAL} } from api from transport layer
 const bills = [
-    {
-        "id": "V000128",
-        "member_uri": "https://api.propublica.org/congress/v1/members/V000128.json",
-        "name": "Chris Van Hollen",
-        "num_results": 20,
-        "offset": 0,
-        "bills": [
             {
                 "congress": "115",
                 "bill_id": "s1798-115",
@@ -81,7 +74,7 @@ const bills = [
                 "summary": "",
                 "summary_short": "",
                 "latest_major_action_date": "2017-09-12",
-                "latest_major_action": "Read twice and referred to the Committee on Banking, Housing, and Urban Affairs. (Sponsor introductory remarks on measure: CR S5219)"
+                "latest_major_action": "Read twice and referred to the Committee on Banking, Housing, and Urban Affairs. (Sponsor introductory remarks on measure: CR S5219)",
             },
             {
                 "congress": "115",
@@ -654,7 +647,5 @@ const bills = [
                 "latest_major_action": "Sponsor introductory remarks on measure. (CR E421)"
             }
         ]
-    }
-]
 
 export default bills;
