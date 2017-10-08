@@ -4,7 +4,6 @@ import { Actions } from 'react-native-router-flux';
 import { ScrollView, View } from 'react-native';
 import ActionGraphic from '../actionGraphic'
 import { getSpecificBill } from '../../services/transport-layer';
-import { View } from 'react-native';
 import { Container, Icon, Right, Text, Body, ScrollableTab, Header, Tabs, Tab, Button, Left } from 'native-base';
 import styles from './styles';
 
@@ -36,7 +35,7 @@ export default class BillPage extends Component {
                         <View>
                             <Text>Sponsor: {this.props.bill.sponsor_title + " " + this.props.bill.sponsor + "  " + this.props.bill.sponsor_party + "-" + this.props.bill.sponsor_state}</Text>
                         </View>
-                        <ActionGraphic actions={bill.actions}/>
+                        {/*<ActionGraphic actions={bill.actions}/>*/}
                         <View>
                             {this.props.bill.summary_short ? <Text>{this.props.bill.summary_short}</Text> : <Text>No Summary</Text>}
                         </View>
