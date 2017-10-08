@@ -45,6 +45,13 @@ const styles = {
     tabUnderline: {
         backgroundColor: headerTheme.backgroundColor,
         // width: 187.5,
+    },
+    buttonStyle: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
     }
 };
 

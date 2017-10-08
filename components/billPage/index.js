@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import { ScrollView, View } from 'react-native';
 import ActionGraphic from '../actionGraphic'
 import { getSpecificBill } from '../../services/transport-layer';
+import { View } from 'react-native';
 import { Container, Icon, Right, Text, Body, ScrollableTab, Header, Tabs, Tab, Button, Left } from 'native-base';
 import styles from './styles';
 
