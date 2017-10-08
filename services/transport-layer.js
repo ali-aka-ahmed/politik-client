@@ -13,3 +13,8 @@ export const getSpecificBill = async (bill_uri) => {
     let responseData = await axios.get(bill_uri);
     return responseData.data.results[0];
 };
+
+export const getSenatorsByState = async (state) => {
+    let responseData = await axios.get(BASE_URL + 'members/senate/' + state + '/current.json');
+    return responseData.data.results;
+};

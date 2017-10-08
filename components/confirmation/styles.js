@@ -11,12 +11,12 @@ const styles = {
         justifyContent: 'space-around'
     },
     title: {
-        fontSize: 70,
+        fontSize: 40,
         width: 275,
         textAlign: 'center',
         color: 'black',
         fontWeight: '200'
-    },
+    }
     // button: {
     //     paddingLeft: 20,
     //     paddingRight: 20
