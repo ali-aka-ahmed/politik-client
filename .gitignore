@@ -2,3 +2,4 @@ node_modules/
 .expo/
 npm-debug.*
 .idea/workspace.xml
+package-lock.json
