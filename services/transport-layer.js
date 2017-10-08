@@ -1,8 +1,5 @@
 import axios from "axios";
 
-// BASE_URL = 'https://api.propublica.org/congress/v1/';
-// axios.defaults.headers.common['X-API-Key'] = 'UaRAYesDNYQSfTiJUjAx5t5ihEubJJuDLtgnP1jF';
-
 let propublica_inst = axios.create({
     baseURL: 'https://api.propublica.org/congress/v1/',
     timeout: 1000,
@@ -11,15 +8,14 @@ let propublica_inst = axios.create({
 
 let capitalOne_inst = axios.create({
     baseURL: 'http://api.reimaginebanking.com/',
-    timeout: 1000,
-    // headers: {'X-API-Key': 'UaRAYesDNYQSfTiJUjAx5t5ihEubJJuDLtgnP1jF'}
+    timeout: 1000
 });
+
 let capitalOne_key = "/?key=50e8829f2eaab27ac2ae6339458730fb"; /* Daryus' API key */
 
 let sparkpost_inst = axios.create({
     baseURL: '',
     timeout: 1000,
-    // headers: {'X-API-Key': 'UaRAYesDNYQSfTiJUjAx5t5ihEubJJuDLtgnP1jF'}
 });
 
 
@@ -41,6 +37,10 @@ export const getSpecificBill = async (bill_uri) => {
     return responseData.data.results[0];
 };
 
+export const getSenatorsByState = async (state) => {
+    let responseData = await propublica_inst.get('members/senate/' + state + '/current.json');
+    return responseData.data.results;
+};
 
 // ////////////////////////////////////////////////////
 // ///////////// CAPITALONE API FUNCTIONS /////////////
@@ -148,4 +148,3 @@ export const createCustomerAndAccount = async (first_name, last_name, /* JSON */
 // ////////////////////////////////////////////////////
 // ///////////// SPARKPOST API FUNCTIONS /////////////
 // ////////////////////////////////////////////////////
-
