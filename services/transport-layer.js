@@ -26,14 +26,14 @@ let normal_inst = axios.create({
 export const getRecentBillsByMember = async (member_id, type) => {
     // let responseData = await axios.get(BASE_URL + 'members/' + member_id + '/bills/' + type + '.json');
     let responseData = await propublica_inst.get('members/' + member_id + '/bills/' + type + '.json');
-    console.log(responseData.data.results[0], "within transport-layer - getRecentBillByMember");
+    // console.log(responseData.data.results[0], "within transport-layer - getRecentBillByMember");
     return responseData.data.results[0].bills;
 };
 
 export const getSpecificBill = async (bill_uri) => {
     // let responseData = await axios.get(bill_uri);
     let responseData = await propublica_inst.get(bill_uri);
-    console.log(responseData.data.results[0], "within transport-layer - getSpecificBill");
+    // console.log(responseData.data.results[0], "within transport-layer - getSpecificBill");
     return responseData.data.results[0];
 };
 
@@ -166,7 +166,7 @@ export const createLetter = async (sender_name, rep_name, body_letter, street_ad
     return responseData.data.filename; // returns absolute path i.e. '/Users/ali/Google Drive/cs/politik/express-babel/letters/Ali Ahmed.pdf'
 };
 
-export const sendFax = async (path_to_letter) => {
-    let responseData = await normal_inst.post("/send-fax", { path_to_letter });
+export const sendFax = async (path_to_letter, rep_id) => {
+    let responseData = await normal_inst.post("/send-fax", { path_to_letter: path_to_letter, rep_id: rep_id });
     return responseData.data
 };

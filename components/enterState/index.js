@@ -10,6 +10,7 @@ export default class EnterState extends Component {
 
     getRepresentatives = async (state) => {
         await this.props.appState.getSenators(state);
+        console.log("tf")
         Actions.confirmation();
     };
 
@@ -26,7 +27,7 @@ export default class EnterState extends Component {
                         note={true}
                         onValueChange={this.getRepresentatives}
                     >
-                        <Item label="Maryland" value="MD" />
+                        <Item label="Alabama" value="AL" />
                         <Item label="Maryland" value="MD" />
                         <Item label="Maryland" value="MD" />
                         <Item label="Maryland" value="MD" />

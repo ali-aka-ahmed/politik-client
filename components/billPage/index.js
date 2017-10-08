@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react/native';
+import { action } from 'mobx';
 import { Actions } from 'react-native-router-flux';
 import { ScrollView, View } from 'react-native';
 import ActionGraphic from '../actionGraphic'
@@ -10,8 +11,20 @@ import styles from './styles';
 @inject("appState") @observer
 export default class BillPage extends Component {
 
+    @action
+    adjustVote = (num) => {
+        if (num === 1) {
+            console.log(this.props.bill.votesFor);
+            this.props.bill.votesFor += 1
+            console.log(this.props.bill.votesFor)
+        } else if (num === -1) {
+            this.props.bill.votesAgainst += 1
+        }
+        this.props.bill.voted = true
+    };
+
     render() {
-        console.log(this.props.bill);
+        console.log(this.props.bill)
         return (
             <Container style={styles.container}>
                 <Header hasTabs style={styles.header} backgroundColor={styles.header.backgroundColor}>
@@ -37,8 +50,28 @@ export default class BillPage extends Component {
                         </View>
                         {/*<ActionGraphic actions={bill.actions}/>*/}
                         <View>
-                            {this.props.bill.summary_short ? <Text>{this.props.bill.summary_short}</Text> : <Text>No Summary</Text>}
+                            {this.props.bill.summary_short ? <Text>{this.props.bill.summary_short}</Text> : <Text>No Summary! Check back in a few days while we write it</Text>}
                         </View>
+                        {   this.props.bill.voted ?
+                            <View></View> :
+                            <View
+                                style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                                <Button rounded success x-large
+                                        style={{height: 70, width: 70, flexDirection: 'row', justifyContent: 'center'}}
+                                        onPress={() => {
+                                            this.adjustVote(1)
+                                        }}>
+                                    <Icon name='checkmark' style={{fontSize: 50}}/>
+                                </Button>
+                                <Button rounded danger x-large
+                                        style={{height: 70, width: 70, flexDirection: 'row', justifyContent: 'center'}}
+                                        onPress={() => {
+                                            this.adjustVote(-1)
+                                        }}>
+                                    <Icon name='close' style={{fontSize: 50}}/>
+                                </Button>
+                            </View>
+                        }
                     </ScrollView>
                     {/*<Tabs renderTabBar={() =>*/}
                         {/*<ScrollableTab style={styles.tabBackground}/>*/}
