@@ -15,9 +15,9 @@ export default class App extends React.Component {
             <Provider appState={appState}>
                 <Router>
                     <Scene key="root" hideNavBar hideTabBar>
-                        {/*<Scene navigationBarStyle={{statusBarTextColorScheme: 'light'}} key="launch" component={Launch}/>*/}
-                        {/*<Scene navigationBarStyle={{statusBarTextColorScheme: 'light'}} key="enterState" component={EnterState}/>*/}
-                        {/*<Scene navigationBarStyle={{statusBarTextColorScheme: 'light'}} key="confirmation" component={Confirmation}/>*/}
+                        <Scene navigationBarStyle={{statusBarTextColorScheme: 'light'}} key="launch" component={Launch}/>
+                        <Scene navigationBarStyle={{statusBarTextColorScheme: 'light'}} key="enterState" component={EnterState}/>
+                        <Scene navigationBarStyle={{statusBarTextColorScheme: 'light'}} key="confirmation" component={Confirmation}/>
                         <Scene navigationBarStyle={{statusBarTextColorScheme: 'light'}} key="billList" component={BillList}/>
                         <Scene navigationBarStyle={{statusBarTextColorScheme: 'light'}} key="billPage" component={BillPage}/>
                     </Scene>
