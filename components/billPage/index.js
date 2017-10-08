@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react/native';
 import { Actions } from 'react-native-router-flux';
 import { ScrollView } from 'react-native';
 import { getSpecificBill } from '../../services/transport-layer';
+import { View } from 'react-native';
 import { Container, Icon, Right, Text, Body, ScrollableTab, Header, Tabs, Tab, Button, Left } from 'native-base';
 import styles from './styles';
 
@@ -35,34 +36,11 @@ export default class BillPage extends Component {
                     </Body>
                     <Right/>
                 </Header>
-                <Container>
-                    <Tabs renderTabBar={() =>
-                        <ScrollableTab style={styles.tabBackground}/>
-                    } tabBarUnderlineStyle={styles.tabUnderline}>
-                        <Tab heading="TEXT"
-                             tabStyle={styles.tabBackground}
-                             activeTabStyle={styles.tabBackground}
-                             textStyle={styles.tabText}
-                             activeTextStyle={styles.tabText}
-                             scrollEnabled={false}
-                        >
-                            <ScrollView>
-                                {/*<TransactionReceiptSection item={props.item}/>*/}
-                                {/*<TransactionMemoSection item={props.item}/>*/}
-                            </ScrollView>
-                        </Tab>
-                        <Tab heading="MESSAGE"
-                             tabStyle={styles.tabBackground}
-                             activeTabStyle={styles.tabBackground}
-                             textStyle={styles.tabText}
-                             activeTextStyle={styles.tabText}
-                        >
-                            <ScrollView>
-                                {/*<TransactionBudgetSection item={props.item}/>*/}
-                            </ScrollView>
-                        </Tab>
-                    </Tabs>
-                </Container>
+                <View style={styles.buttonStyle}>
+                    <Button success onPress={}>
+                        <Text>Donate Now!</Text>
+                    </Button>
+                </View>
             </Container>
         )
     }

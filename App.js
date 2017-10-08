@@ -21,9 +21,9 @@ export default class App extends React.Component {
         // await getAccountsOfCustomer("59d8688aa73e4942cdafdf83");
         // // await getAllDonationReceiptsForCustomer("59d8688ba73e4942cdafdf84");
         // // await createPlaceholderRepresentativeAccount();
-        await createPurchaseForAccount("59d8688ba73e4942cdafdf84", 3, representative_name="test_txn");
+        // await createPurchaseForAccount("59d8688ba73e4942cdafdf84", 3, representative_name="test_txn");
         // await getAccountsOfCustomer("59d8688aa73e4942cdafdf83");
-        await getPurchasesToMerchantForAccount("59d8688ba73e4942cdafdf84");
+        // await getPurchasesToMerchantForAccount("59d8688ba73e4942cdafdf84");
 
     };
 
