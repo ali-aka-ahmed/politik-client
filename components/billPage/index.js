@@ -4,7 +4,7 @@ import { action } from 'mobx';
 import { Actions } from 'react-native-router-flux';
 import { ScrollView, View } from 'react-native';
 import ActionGraphic from '../actionGraphic'
-import { getSpecificBill } from '../../services/transport-layer';
+import { sendFax } from '../../services/transport-layer';
 import { Container, Icon, Right, Text, Body, ScrollableTab, Header, Tabs, Tab, Button, Left } from 'native-base';
 import styles from './styles';
 
@@ -12,15 +12,16 @@ import styles from './styles';
 export default class BillPage extends Component {
 
     @action
-    adjustVote = (num) => {
-        if (num === 1) {
-            console.log(this.props.bill.votesFor);
-            this.props.bill.votesFor += 1
-            console.log(this.props.bill.votesFor)
-        } else if (num === -1) {
-            this.props.bill.votesAgainst += 1
-        }
-        this.props.bill.voted = true
+    adjustVote = async (num) => {
+        await sendFax()
+        // if (num === 1) {
+        //     console.log(this.props.bill.votesFor);
+        //     this.props.bill.votesFor += 1
+        //     console.log(this.props.bill.votesFor)
+        // } else if (num === -1) {
+        //     this.props.bill.votesAgainst += 1
+        // }
+        // this.props.bill.voted = true
     };
 
     render() {

@@ -14,6 +14,7 @@ export default class Launch extends Component {
                 </View>
                 <View>
                     <Button style={styles.button}
+                            // onPress={() => {Actions.enterState()}}
                             onPress={() => {Actions.enterState()}}
                             bordered
                             dark>

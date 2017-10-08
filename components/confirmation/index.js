@@ -24,15 +24,34 @@ export default class Confirmation extends Component {
                      {
                          this.props.appState.representatives.map((rep) => {
                              return (
-                                 <View key={rep.id}>
-                                     <Text>{rep.name}</Text>
+                                 <View key={rep.id} >
+                                     <Text style={{
+                                         fontSize: 30,
+                                         width: 275,
+                                         textAlign: 'center',
+                                         color: 'black',
+                                         fontWeight: '200', marginBottom: 5}}>{rep.name + " " + "(" + rep.party + ")"}</Text>
                                  </View>
                              )
                          })
                      }
                  </View>
                  <View>
-                     <Text>Now you can see all the bills they are going to vote on, and vote on them yourself!</Text>
+                     <Text style={{
+                         fontSize: 15,
+                         width: 275,
+                         textAlign: 'center',
+                         color: 'black',
+                         fontWeight: '200',
+                         marginBottom: 10
+                     }}>See the bills your Senators have introduced</Text>
+                     <Text style={{
+                         fontSize: 15,
+                         width: 275,
+                         textAlign: 'center',
+                         color: 'black',
+                         fontWeight: '200'
+                     }}>Vote on them, and a fax is sent to them voicing your opinion!</Text>
                  </View>
                  <View>
                      <Button style={styles.button}

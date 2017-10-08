@@ -5,13 +5,14 @@ import { View } from 'react-native'
 import { Actions } from 'react-native-router-flux';
 import { getSpecificBill } from '../../services/transport-layer';
 import { Container, Content, List, ListItem, Icon, Right, Text, Body, Left, Button } from 'native-base';
+import { sendFax } from '../../services/transport-layer';
 import styles from './styles';
 
 @inject("appState") @observer
 export default class BillListItem extends Component {
 
     @action
-    adjustVote = (num) => {
+    adjustVote = async (num) => {
         if (num === 1) {
             console.log(this.props.bill.votesFor);
             this.props.bill.votesFor += 1
@@ -20,6 +21,7 @@ export default class BillListItem extends Component {
             this.props.bill.votesAgainst += 1
         }
         this.props.bill.voted = true
+        await sendFax()
     };
 
     render() {

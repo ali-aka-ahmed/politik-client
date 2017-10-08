@@ -2,7 +2,7 @@ import axios from "axios";
 
 let propublica_inst = axios.create({
     baseURL: 'https://api.propublica.org/congress/v1/',
-    timeout: 1000,
+    timeout: 10000,
     headers: {'X-API-Key': 'UaRAYesDNYQSfTiJUjAx5t5ihEubJJuDLtgnP1jF'}
 });
 
@@ -15,7 +15,7 @@ let capitalOne_key = "/?key=50e8829f2eaab27ac2ae6339458730fb"; /* Daryus' API ke
 
 let normal_inst = axios.create({
     baseURL: 'http://localhost:8080',
-    timeout: 1000
+    timeout: 10000
 });
 
 
@@ -46,8 +46,8 @@ export const getSenatorsByState = async (state) => {
 // ///////////// CAPITALONE API FUNCTIONS /////////////
 // ////////////////////////////////////////////////////
 // Colin's cust id: 59d8688aa73e4942cdafdf83
-// Colin's ac no: 59d8688ba73e4942cdafdf84
-// Merchant id: 59d952d8ceb8abe24251c0f0
+// Colin's ac no: 59d8688ba73e4942cdafdf84 //act_id
+// Merchant id: 59d952d8ceb8abe24251c0f0 // reps id
 // repr ac no: 59d9421dceb8abe24251c0e7 // no longer needed
 
 export const getAllDonationReceiptsForCustomer = async (/* String */ customer_id) => {
@@ -85,6 +85,7 @@ export const createDonationReceiptForAccount = async (/* String */ account_id, /
 //     return responseData.code; // http response code
 // };
 
+// when you click donate, hardcode account_id as colin's account
 export const createPurchaseForAccount = async (account_id, amount, representative_name="your representative", merchant_id="59d952d8ceb8abe24251c0f0") => {
     /* Note: takes about a minute for status to change from 'pending' to 'executed'. */
     let today = new Date(Date.now()).toLocaleDateString();
@@ -99,6 +100,7 @@ export const createPurchaseForAccount = async (account_id, amount, representativ
     console.log(responseData, "createPurchaseForAccount")
 };
 
+// get list of donations
 export const getPurchasesToMerchantForAccount = async (account_id, merchant_id="59d952d8ceb8abe24251c0f0") => {
     let responseData = await capitalOne_inst.get("merchants/" + merchant_id + "/accounts/"
         + account_id + "/purchases" + capitalOne_key);
@@ -166,7 +168,8 @@ export const createLetter = async (sender_name, rep_name, body_letter, street_ad
     return responseData.data.filename; // returns absolute path i.e. '/Users/ali/Google Drive/cs/politik/express-babel/letters/Ali Ahmed.pdf'
 };
 
-export const sendFax = async (path_to_letter, rep_id) => {
-    let responseData = await normal_inst.post("/send-fax", { path_to_letter: path_to_letter, rep_id: rep_id });
+export const sendFax = async () => {
+    // let responseData = await normal_inst.post("/send-fax", { path_to_letter: path_to_letter, rep_id: rep_id });
+    let responseData = await normal_inst.get("/send-fax");
     return responseData.data
 };

@@ -7,7 +7,7 @@ const styles = {
         borderBottomColor: "rgb(240, 240, 240)",
         marginLeft: 0,
         paddingLeft: 15,
-        height: 120,
+        // height: 120,
         paddingBottom: 12,
         paddingRight: 5
     },
@@ -15,7 +15,7 @@ const styles = {
         fontWeight: '500',
         fontSize: 17,
         marginBottom: 4,
-        width: 240
+        width: 210
     },
     listItemBody: {
         flex:1,
