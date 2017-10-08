@@ -26,7 +26,7 @@ export default class BillListItem extends Component {
 
     render() {
         return (
-            <ListItem onPress={() => {Actions.billPage({bill: this.props.bill})}} style={styles.container}>
+            <ListItem onPress={() => {console.log("yolo")}} style={styles.container}>
                 <Body style={styles.listItemBody}>
                     <Text style={styles.listItemTitle}>{this.props.bill.title}</Text>
                     <Text style={styles.subheading}>{this.props.bill.number}</Text>

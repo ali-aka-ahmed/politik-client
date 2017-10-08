@@ -1,12 +1,12 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react/native';
 import {Image} from 'react-native';
-import BillListItem from '../billListItem';
 import {Container, Content, ListItem, Body, Text, Header, Left, Right, Button, Icon} from 'native-base';
+import RepresentativeListItem from '../representativeListItem';
 import FooterTabs from '../footerTabs';
 import styles from './styles'
 
-const BillList = (props) => {
+const RepresentativeList = (props) => {
 
     return (
         <Container style={styles.container}>
@@ -18,7 +18,7 @@ const BillList = (props) => {
                     {/*</Button>*/}
                 </Left>
                 <Body>
-                <Text style={styles.title}>Bills</Text>
+                    <Text style={styles.title}>Representatives</Text>
                 </Body>
                 <Right>
                     <Button transparent
@@ -29,9 +29,9 @@ const BillList = (props) => {
             </Header>
             <Content>
                 {
-                    props.appState.bills.map((bill) => {
+                    props.appState.representatives.map((rep) => {
                         return (
-                            <BillListItem bill={bill} key={bill.bill_id}/>
+                            <RepresentativeListItem rep={rep} key={rep.id}/>
                         )
                     })
                 }
@@ -41,4 +41,4 @@ const BillList = (props) => {
     )
 };
 
-export default inject("appState")(observer(BillList));
+export default inject("appState")(observer(RepresentativeList));

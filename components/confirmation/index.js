@@ -27,7 +27,6 @@ export default class Confirmation extends Component {
                                  <View key={rep.id} >
                                      <Text style={{
                                          fontSize: 30,
-                                         width: 275,
                                          textAlign: 'center',
                                          color: 'black',
                                          fontWeight: '200', marginBottom: 5}}>{rep.name + " " + "(" + rep.party + ")"}</Text>

@@ -86,7 +86,7 @@ export const createDonationReceiptForAccount = async (/* String */ account_id, /
 // };
 
 // when you click donate, hardcode account_id as colin's account
-export const createPurchaseForAccount = async (account_id, amount, representative_name="your representative", merchant_id="59d952d8ceb8abe24251c0f0") => {
+export const createPurchaseForAccount = async (account_id, amount, representative_name="your representativeListItem", merchant_id="59d952d8ceb8abe24251c0f0") => {
     /* Note: takes about a minute for status to change from 'pending' to 'executed'. */
     let today = new Date(Date.now()).toLocaleDateString();
     let payload = {
