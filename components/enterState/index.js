@@ -10,6 +10,7 @@ export default class EnterState extends Component {
 
     getRepresentatives = async (state) => {
         await this.props.appState.getSenators(state);
+        console.log("tf")
         Actions.confirmation();
     };
 
@@ -268,11 +269,6 @@ export default class EnterState extends Component {
                         {this.states.map((dict) => {return (
                             <Item label={dict.name} value={dict.abbreviation} key={dict.abbreviation} />
                         )})}
-
-                        {/*<Item label="Alabama" value="AL" />*/}
-                        {/*<Item label="Alaska" value="MD" />*/}
-                        {/*<Item label="Maryland" value="MD" />*/}
-
                     </Picker>
                     {/*<Button style={styles.button}*/}
                             {/*onPress={() => {console.log("Yolo")}}*/}

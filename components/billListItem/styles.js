@@ -7,15 +7,15 @@ const styles = {
         borderBottomColor: "rgb(240, 240, 240)",
         marginLeft: 0,
         paddingLeft: 15,
-        height: 80,
+        height: 120,
         paddingBottom: 12,
         paddingRight: 5
     },
     listItemTitle: {
         fontWeight: '500',
         fontSize: 17,
-        marginBottom: 2,
-        width: 200
+        marginBottom: 4,
+        width: 240
     },
     listItemBody: {
         flex:1,
@@ -36,7 +36,7 @@ const styles = {
     subheading: {
         color: "rgb(140, 140, 140)",
         fontWeight: '200',
-        fontSize: 11.5
+        fontSize: 12
     }
 };
 
