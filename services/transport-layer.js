@@ -8,13 +8,13 @@ let propublica_inst = axios.create({
 
 let capitalOne_inst = axios.create({
     baseURL: 'http://api.reimaginebanking.com/',
-    timeout: 1000
+    timeout: 10000
 });
 
 let capitalOne_key = "/?key=50e8829f2eaab27ac2ae6339458730fb"; /* Daryus' API key */
 
 let normal_inst = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: 'http://localhost:3000',
     timeout: 10000
 });
 
@@ -43,109 +43,20 @@ export const getSenatorsByState = async (state) => {
 };
 
 // ////////////////////////////////////////////////////
-// ///////////// CAPITALONE API FUNCTIONS /////////////
+// ///////////// BACKEND FUNCTIONS /////////////
 // ////////////////////////////////////////////////////
-// Colin's cust id: 59d8688aa73e4942cdafdf83
-// Colin's ac no: 59d8688ba73e4942cdafdf84 //act_id
-// Merchant id: 59d952d8ceb8abe24251c0f0 // reps id
-// repr ac no: 59d9421dceb8abe24251c0e7 // no longer needed
 
-export const getAllDonationReceiptsForCustomer = async (/* String */ customer_id) => {
-    let responseData = await capitalOne_inst.get("accounts/" + customer_id + "/bills" + capitalOne_key);
-    console.log(responseData, "within transport-layer - getAllBillsForCustomer");
-    return responseData.data; /* array of bills */
+export const checkLogin = async (email, password) => {
+    console.log("WE GOING IN", {email, password});
+    let responseData = await normal_inst.post('/auth/login', {email, password});
+    return responseData.data;
+}
+
+export const createUser = async (firstName, lastName, address, email, password) => {
+    console.log("Going into createUser", {firstName, lastName, address, email, password});
+    let responseData = await normal_inst.post('/auth/signup', {firstName, lastName, address, email, password});
+    return responseData.data;
 };
-
-export const createDonationReceiptForAccount = async (/* String */ account_id, /* String */ payee, /* Integer */ payment_amount, nickname="Donation to " + payee) => {
-    let today = new Date(Date.now()).toLocaleDateString();
-    let payload = {
-        "status": "completed",
-        "payee": payee,
-        "nickname": nickname,
-        "payment_date": today,
-        "recurring_date": 1,
-        "payment_amount": payment_amount
-    };
-    let responseData = await capitalOne_inst.post("accounts/" + account_id + "/bills" + capitalOne_key, payload);
-    console.log(responseData.data, "within transport-layer - createBillForCustomer");
-    return responseData.data.code; // http response indicating success or failure (201 for success)
-};
-
-// export const chargeCustomerAccount = async (account_id, amount, description) => {
-//     let today = new Date(Date.now()).toLocaleDateString();
-//     let payload = {
-//         "medium": "balance",
-//         "payee_id": "59d9421dceb8abe24251c0e7",
-//         "amount": amount,
-//         "transaction_date": today,
-//         "description": "string"
-//     };
-//     let responseData = await capitalOne_inst.post("accounts/" + account_id + "/transfers" + capitalOne_key, payload);
-//     console.log(responseData, "chargeCustAcc");
-//     return responseData.code; // http response code
-// };
-
-// when you click donate, hardcode account_id as colin's account
-export const createPurchaseForAccount = async (account_id, amount, representative_name="your representativeListItem", merchant_id="59d952d8ceb8abe24251c0f0") => {
-    /* Note: takes about a minute for status to change from 'pending' to 'executed'. */
-    let today = new Date(Date.now()).toLocaleDateString();
-    let payload = {
-        "merchant_id": merchant_id,
-        "medium": "balance",
-        "purchase_date": today,
-        "amount": amount,
-        "description": "Donation to " + representative_name
-    };
-    let responseData = await capitalOne_inst.post("accounts/" + account_id + "/purchases" + capitalOne_key, payload);
-    console.log(responseData, "createPurchaseForAccount")
-};
-
-// get list of donations
-export const getPurchasesToMerchantForAccount = async (account_id, merchant_id="59d952d8ceb8abe24251c0f0") => {
-    let responseData = await capitalOne_inst.get("merchants/" + merchant_id + "/accounts/"
-        + account_id + "/purchases" + capitalOne_key);
-    console.log(responseData.data, "getPurchasesToMerchantForAccount");
-    return responseData.data; // array of purchases to the merchant made by the account_id
-};
-
-
-export const getAccountsOfCustomer = async (customer_id) => {
-    /* Primarily for testing */
-    let responseData = await capitalOne_inst.get("customers/" + customer_id + "/accounts" + capitalOne_key);
-    console.log(responseData.data, "within transport-layer - getCustomerAccounts");
-    return responseData.data; // array of accounts belonging to customer
-};
-
-export const createCustomerAndAccount = async (first_name, last_name, /* JSON */ address) => {
-    let createCustomerPayload = {
-        "first_name": first_name,
-        "last_name": last_name,
-        "address": {
-            "street_number": address.street_number,
-            "street_name": address.street_name,
-            "city": address.city,
-            "state": address.state,
-            "zip": address.zip
-        }
-    };
-    let createAccountPayload = {
-        "type": "Checking",
-        "nickname": first_name + " " + last_name + "'s checking account",
-        "rewards": 1000000,
-        "balance": 1000000,
-    };
-    let createCustomerResponseData = await capitalOne_inst.post("customers" + capitalOne_key, createCustomerPayload);
-    console.log(createCustomerResponseData, "createCust response data");
-
-    let createAccountResponseData = await capitalOne_inst.post("customers/"
-        + createCustomerResponseData.data.objectCreated._id
-        + "/accounts" + capitalOne_key, createAccountPayload);
-
-    console.log(createAccountResponseData.data.objectCreated._id, "createAcc account id");
-    return createAccountResponseData.data; // CONTAINS THIS NEW CUSTOMER'S ACCOUNT ID
-};
-
-
 
 // ////////////////////////////////////////////////////
 // ///////////// CREATE-PDF TO SEND TO REP  ///////////
@@ -160,7 +71,6 @@ export const createLetter = async (sender_name, rep_name, body_letter, street_ad
                 "body_letter" : body_letter,
                 "street_address" : street_address,
                 "city_state_zip" : city_state_zip
-
             }
         }
     );

@@ -15,10 +15,17 @@ export default class Launch extends Component {
                 <View>
                     <Button style={styles.button}
                             // onPress={() => {Actions.enterState()}}
-                            onPress={() => {Actions.enterState()}}
+                            onPress={() => {Actions.login()}}
                             bordered
                             dark>
-                        <Text>Get Started</Text>
+                        <Text>Login</Text>
+                    </Button>
+                    <Button style={styles.button}
+                        // onPress={() => {Actions.enterState()}}
+                            onPress={() => {Actions.signUp()}}
+                            transparent
+                            dark>
+                        <Text>Sign Up</Text>
                     </Button>
                 </View>
             </Container>

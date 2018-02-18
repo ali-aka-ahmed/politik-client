@@ -7,7 +7,6 @@ import headerTheme from '../../themes/headerTheme';
 const styles = {
     container: backgroundTheme,
     header: {
-        height: itemTheme.height,
         backgroundColor: itemTheme.backgroundColor,
         paddingBottom: itemTheme.paddingBottom,
         paddingTop: itemTheme.paddingTop
@@ -39,8 +38,8 @@ const styles = {
         fontSize: tabTheme.fontSize
     },
     tabBackground: {
-        backgroundColor: tabTheme.backgroundColor,
-        height: tabTheme.height
+        backgroundColor: tabTheme.backgroundColor
+        // height: tabTheme.height
     },
     tabUnderline: {
         backgroundColor: headerTheme.backgroundColor,

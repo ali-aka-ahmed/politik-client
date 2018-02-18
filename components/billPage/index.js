@@ -5,7 +5,8 @@ import { Actions } from 'react-native-router-flux';
 import { ScrollView, View } from 'react-native';
 import ActionGraphic from '../actionGraphic'
 import { sendFax } from '../../services/transport-layer';
-import { Container, Icon, Right, Text, Body, ScrollableTab, Header, Tabs, Tab, Button, Left } from 'native-base';
+import { Container, Title, Subtitle, Icon, Right, Text, Body, ScrollableTab, Header, Tabs, Tab, Button, Left } from 'native-base';
+import PopupDialog from 'react-native-popup-dialog';
 import styles from './styles';
 
 @inject("appState") @observer
@@ -39,38 +40,55 @@ export default class BillPage extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Text style={styles.title}>{this.props.bill.short_title}</Text>
-                        <Text style={styles.subheading}>{this.props.bill.bill}</Text>
+                        <Title style={styles.title}>{this.props.bill.short_title ? this.props.bill.short_title : this.props.bill.title}</Title>
+                        <Subtitle style={styles.subheading}>{this.props.bill.bill}</Subtitle>
                     </Body>
                     <Right/>
                 </Header>
                 <Container>
                     <ScrollView>
+
                         <View>
                             <Text>Sponsor: {this.props.bill.sponsor_title + " " + this.props.bill.sponsor + "  " + this.props.bill.sponsor_party + "-" + this.props.bill.sponsor_state}</Text>
                         </View>
                         {/*<ActionGraphic actions={bill.actions}/>*/}
+
+
                         <View>
-                            {this.props.bill.summary_short ? <Text>{this.props.bill.summary_short}</Text> : <Text>No Summary! Check back in a few days while we write it</Text>}
+                            {this.props.bill.summary ? <Text>{this.props.bill.summary}</Text> : <Text>No Summary! Check back in a few days while we write it</Text>}
                         </View>
+
+
                         {   this.props.bill.voted ?
                             <View></View> :
                             <View
                                 style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                                <Button rounded success x-large
-                                        style={{height: 70, width: 70, flexDirection: 'row', justifyContent: 'center'}}
-                                        onPress={() => {
-                                            this.adjustVote(1)
-                                        }}>
-                                    <Icon name='checkmark' style={{fontSize: 50}}/>
-                                </Button>
-                                <Button rounded danger x-large
-                                        style={{height: 70, width: 70, flexDirection: 'row', justifyContent: 'center'}}
-                                        onPress={() => {
-                                            this.adjustVote(-1)
-                                        }}>
-                                    <Icon name='close' style={{fontSize: 50}}/>
-                                </Button>
+                                <View>
+                                    <Button rounded success x-large
+                                            style={{height: 70, width: 70, flexDirection: 'row', justifyContent: 'center'}}
+                                            onPress={() => {
+                                                // this.adjustVote(1)
+                                                this.popupDialog.show()
+                                            }}>
+                                        <Icon name='checkmark' style={{fontSize: 50}}/>
+                                    </Button>
+                                    <PopupDialog
+                                        ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                                    >
+                                        <View>
+                                            <Text>Hello</Text>
+                                        </View>
+                                    </PopupDialog>
+                                </View>
+                                <View>
+                                    <Button rounded danger x-large
+                                            style={{height: 70, width: 70, flexDirection: 'row', justifyContent: 'center'}}
+                                            onPress={() => {
+                                                this.adjustVote(-1)
+                                            }}>
+                                        <Icon name='close' style={{fontSize: 50}}/>
+                                    </Button>
+                                </View>
                             </View>
                         }
                     </ScrollView>

@@ -5,6 +5,7 @@ import BillListItem from '../billListItem';
 import {Container, Content, ListItem, Body, Text, Header, Left, Right, Button, Icon} from 'native-base';
 import FooterTabs from '../footerTabs';
 import styles from './styles'
+import { getBills } from '../../stores/appState'
 
 const BillList = (props) => {
 

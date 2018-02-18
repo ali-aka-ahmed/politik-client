@@ -2,7 +2,7 @@ export default itemTheme = {
     textColor: 'rgb(255, 255, 255)',
     backgroundColor: '#1A2D41',
     height: 76,
-    paddingBottom: 10,
+    paddingBottom: 5,
     paddingTop: 30,
     titleFontWeight: '500',
     titleFontSize: 18,

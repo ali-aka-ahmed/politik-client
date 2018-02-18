@@ -10,18 +10,11 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'space-around'
     },
-    title: {
-        fontSize: 70,
-        width: 275,
-        textAlign: 'center',
-        color: 'black',
-        fontWeight: '200'
-    },
     button: {
         width: 300,
         alignItems: 'center',
         justifyContent: 'space-around',
-        marginBottom: 15
+        marginTop: 25
     }
 };
 
