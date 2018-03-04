@@ -29,7 +29,7 @@
     "native-base": "^2.3.2",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.48.4",
-    "react-native-popup-dialog": "^0.9.39",
+    "react-native-popup-dialog": "^0.9.41",
     "react-native-router-flux": "^3.43.0"
   }
 }

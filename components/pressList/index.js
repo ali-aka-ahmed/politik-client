@@ -1,17 +1,15 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react/native';
 import {Image, View} from 'react-native';
-import BillListItem from '../billListItem';
-import {Container, Content, ListItem, Body, Text, Header, Left, Right, Button, Icon, Segment} from 'native-base';
-import FooterTabs from '../footerTabs';
+import PressListItem from '../pressListItem';
+import {Container, Content, ListItem, Text, Header, Left, Right, Button, Icon, Segment} from 'native-base';
 import styles from './styles'
 import { Actions } from 'react-native-router-flux';
-import { authenticateUser } from '../../stores/appState'
 
-class BillList extends React.Component {
+class PressList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {bills: true};
+        this.state = {bills: false};
     }
 
     render() {
@@ -31,10 +29,10 @@ class BillList extends React.Component {
                             <Icon name='md-search' style={{fontSize: 30, color: "white"}}/>
                         </Button>
                         <Segment style={{backgroundColor: "transparent", position: "absolute", marginTop: 70, marginLeft: 80}}>
-                            <Button first bordered light style={this.state.bills ? {backgroundColor: "rgba(18, 62, 100, 100)"} : {}} onPress={() => {this.setState({bills: true})}}>
+                            <Button first bordered light style={this.state.bills ? {backgroundColor: "rgba(18, 62, 100, 100)"} : {}} onPress={() => {Actions.billList()}}>
                                 <Text>Bills</Text>
                             </Button>
-                            <Button last bordered light style={!this.state.bills ? {backgroundColor: "rgba(18, 62, 100, 100)"} : {}} onPress={() => {Actions.pressList()}}>
+                            <Button last bordered light style={!this.state.bills ? {backgroundColor: "rgba(18, 62, 100, 100)"} : {}} onPress={() => {this.setState({bills: false})}}>
                                 <Text>Press</Text>
                             </Button>
                         </Segment>
@@ -50,9 +48,9 @@ class BillList extends React.Component {
                 </View>
                 <Content>
                     {
-                        this.props.appState.bills.map((bill) => {
+                        this.props.appState.press.map((press) => {
                             return (
-                                <BillListItem bill={bill} key={bill._id}/>
+                                <PressListItem press={press} key={press._id}/>
                             )
                         })
                     }
@@ -63,4 +61,4 @@ class BillList extends React.Component {
     }
 };
 
-export default inject("appState")(observer(BillList));
+export default inject("appState")(observer(PressList));

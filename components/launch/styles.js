@@ -20,8 +20,7 @@ const styles = {
     button: {
         width: 300,
         alignItems: 'center',
-        justifyContent: 'space-around',
-        marginBottom: 15
+        justifyContent: 'space-around'
     }
 };
 

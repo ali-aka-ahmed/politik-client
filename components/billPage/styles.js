@@ -7,9 +7,7 @@ import headerTheme from '../../themes/headerTheme';
 const styles = {
     container: backgroundTheme,
     header: {
-        backgroundColor: itemTheme.backgroundColor,
-        paddingBottom: itemTheme.paddingBottom,
-        paddingTop: itemTheme.paddingTop
+        height: headerTheme.height
     },
     title: {
         fontSize: itemTheme.titleFontSize,
@@ -29,9 +27,9 @@ const styles = {
         opacity: 0.7
     },
     backArrow: {
-        color: itemTheme.textColor,
-        paddingBottom: itemTheme.backArrowPaddingBottom,
-        fontSize: itemTheme.backArrowFontSize
+        height: 22,
+        width: 22,
+        marginLeft: 10,
     },
     tabText: {
         color: tabTheme.textColor,

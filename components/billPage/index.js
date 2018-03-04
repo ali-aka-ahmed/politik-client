@@ -2,122 +2,230 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react/native';
 import { action } from 'mobx';
 import { Actions } from 'react-native-router-flux';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, Image, Alert } from 'react-native';
 import ActionGraphic from '../actionGraphic'
-import { sendFax } from '../../services/transport-layer';
-import { Container, Title, Subtitle, Icon, Right, Text, Body, ScrollableTab, Header, Tabs, Tab, Button, Left } from 'native-base';
-import PopupDialog from 'react-native-popup-dialog';
+import { sendFax, createLetter } from '../../services/transport-layer';
+import { Container, Title, Subtitle, Input, Icon, Item, Right, Text, Segment, ScrollableTab, Header, Tabs, Tab, Button, Left } from 'native-base';
 import styles from './styles';
 
 @inject("appState") @observer
 export default class BillPage extends Component {
+    constructor(props) {
+        super(props);
+        let voted = false;
+        let vote = null;
+        for (let i = 0; i < this.props.bill.usersVoted.length; i++) {
+            if (this.props.appState.user.email == this.props.bill.usersVoted[i].email) {
+                voted = true;
+                vote = this.props.bill.usersVoted[i].choice;
+            }
+        }
+        this.state = {bills: true, voted: voted, vote: vote, showMessageBox: false, text: ""};
+    }
 
     @action
-    adjustVote = async (num) => {
-        await sendFax()
-        // if (num === 1) {
-        //     console.log(this.props.bill.votesFor);
-        //     this.props.bill.votesFor += 1
-        //     console.log(this.props.bill.votesFor)
-        // } else if (num === -1) {
-        //     this.props.bill.votesAgainst += 1
-        // }
-        // this.props.bill.voted = true
+    voteOnBill = async (num) => {
+        let res = await this.props.appState.voteOnBill(this.props.bill._id, num);
+        if (res.success) {
+            let voted = false;
+            let vote = null;
+            for (let i = 0; i < this.props.bill.usersVoted.length; i++) {
+                if (this.props.appState.user.email == this.props.bill.usersVoted[i].email) {
+                    voted = true;
+                    vote = this.props.bill.usersVoted[i].choice;
+                }
+            }
+            this.setState({voted: true, voted: voted, vote: vote})
+        } else {
+            Alert.alert(
+                'Error',
+                res.message,
+                [
+                    {text: 'Dismiss', onPress: () => console.log('Dismiss Pressed')},
+                ],
+                { cancelable: false }
+            )
+        }
+    };s
+
+    initiateFaxRoute = async () => {
+        let sender_name = this.props.appState.user.firstName + " " + this.props.appState.user.lastName;
+        let rep_name = this.props.appState.rep.firstName + " " + this.props.appState.rep.lastName;
+        let street_address = "2310 Piedmont Ave";
+        let city_state_zip = "Berkeley, CA 94720";
+        let res = await createLetter(sender_name, rep_name, this.state.text, street_address, city_state_zip);
+        console.log("FAX CREATED")
+        let res2 = sendFax("/letters/demo.pdf", this.props.appState.rep.fax)
+        this.setState({showMessageBox: false, text: ""})
+    };
+
+    @action
+    handleMessageChange = (text) => {
+        this.setState({text: text})
     };
 
     render() {
-        console.log(this.props.bill)
         return (
             <Container style={styles.container}>
-                <Header hasTabs style={styles.header} backgroundColor={styles.header.backgroundColor}>
-                    <Left>
-                        <Button transparent
-                                title="back-transactions"
-                                onPress={() => {
-                                    Actions.pop()
-                                }}>
-                            <Icon ios="md-arrow-back" android="md-arrow-back" style={styles.backArrow}/>
+                <View hasTabs style={styles.header}>
+                    <Image
+                        source={require("../../images/american-wallpaper.png")}
+                        style={{ flex: 1, height: 150, width: null, resizeMode: 'cover'}}
+                    >
+                        <Button transparent style={{left: 0, position: "absolute", paddingTop: 70}}
+                                onPress={() => {Actions.pop()}}>
+                            <Image source={require('../../images/left-arrow.png')} style={styles.backArrow}/>
                         </Button>
-                    </Left>
-                    <Body>
-                        <Title style={styles.title}>{this.props.bill.short_title ? this.props.bill.short_title : this.props.bill.title}</Title>
-                        <Subtitle style={styles.subheading}>{this.props.bill.bill}</Subtitle>
-                    </Body>
-                    <Right/>
-                </Header>
-                <Container>
+                        <Button transparent style={{right: 0, position: "absolute", paddingTop: 70}}
+                                onPress={() => {console.log("open drawer")}}>
+                            <Icon name='md-search' style={{fontSize: 30, color: "white"}}/>
+                        </Button>
+                        <Segment style={{backgroundColor: "transparent", position: "absolute", marginTop: 70, marginLeft: 80}}>
+                            <Button first bordered light style={this.state.bills ? {backgroundColor: "rgba(18, 62, 100, 100)"} : {}} onPress={() => {Actions.billList()}}>
+                                <Text>Bills</Text>
+                            </Button>
+                            <Button last bordered light style={!this.state.bills ? {backgroundColor: "rgba(18, 62, 100, 100)"} : {}} onPress={() => {Actions.pressList()}}>
+                                <Text>Press</Text>
+                            </Button>
+                        </Segment>
+                        <Image
+                            source={require("../../images/lee.png")}
+                            style={{height: 45, width: 45, marginLeft: 30, marginTop: 120}}
+                        />
+                        <Text style={{position: "absolute", backgroundColor: "transparent", color: "white", marginTop: 127, marginLeft: 80, fontSize: 12}}>{this.props.appState.rep.firstName + " " + this.props.appState.rep.lastName}</Text>
+                        <Text style={{position: "absolute", backgroundColor: "transparent", color: "white", marginTop: 145, marginLeft: 80, fontSize: 12}}>{this.props.appState.rep.state + "-" + this.props.appState.rep.party}</Text>
+                        <Text style={{position: "absolute", backgroundColor: "transparent", color: "white", marginTop: 127, right: 55, fontSize: 12}}>{"District " + this.props.appState.rep.district}</Text>
+                        <Text style={{position: "absolute", backgroundColor: "transparent", color: "white", marginTop: 145, right: 55, fontSize: 12}}>{"+1 " + this.props.appState.rep.phone}</Text>
+                    </Image>
+                </View>
+                <Container style={{paddingLeft: 20, paddingRight: 20, paddingTop: 20}}>
                     <ScrollView>
 
-                        <View>
-                            <Text>Sponsor: {this.props.bill.sponsor_title + " " + this.props.bill.sponsor + "  " + this.props.bill.sponsor_party + "-" + this.props.bill.sponsor_state}</Text>
+                        <View style={{paddingBottom: 4}}>
+                            <Text style={{fontWeight: 0.62, fontSize: 20}}>{this.props.bill.number}</Text>
                         </View>
                         {/*<ActionGraphic actions={bill.actions}/>*/}
 
-
-                        <View>
-                            {this.props.bill.summary ? <Text>{this.props.bill.summary}</Text> : <Text>No Summary! Check back in a few days while we write it</Text>}
+                        <View style={{paddingBottom: 4}}>
+                            {this.props.bill.introducedDate ? <Text style={{color: "rgba(125, 125, 125, 100)", fontSize: 13}}>{"Introduced on " + this.props.bill.introducedDate}</Text> : <Text></Text>}
                         </View>
 
 
-                        {   this.props.bill.voted ?
-                            <View></View> :
-                            <View
-                                style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                                <View>
+                        <View style={{paddingBottom: 4}}>
+                            {this.props.bill.summary ? <Text style={{fontWeight: 0}}>{this.props.bill.summary}</Text> : <Text>{this.props.bill.title}</Text>}
+                        </View>
+
+                        <View style={{paddingBottom: 4}}>
+                            <Text style={{color: "rgba(125, 125, 125, 100)", fontSize: 13}}>Subject: Congress</Text>
+                        </View>
+
+                        <View style={{paddingBottom: 4}}>
+                            <Text style={{color: "rgba(125, 125, 125, 100)", fontSize: 13}}>{"Committee: " + this.props.bill.committees}</Text>
+                        </View>
+
+
+
+                        {   this.state.voted ?
+                            <View style={{flexDirection: 'row', justifyContent: 'center', flex: 1, marginTop: 15, marginBottom: 25}}>
+                                {
+                                    this.state.vote ?
                                     <Button rounded success x-large
-                                            style={{height: 70, width: 70, flexDirection: 'row', justifyContent: 'center'}}
+                                            style={{height: 40, width: 110, flexDirection: 'row', justifyContent: 'center'}}
                                             onPress={() => {
-                                                // this.adjustVote(1)
-                                                this.popupDialog.show()
+                                                Alert.alert(
+                                                    "You have already voted!",
+                                                    "",
+                                                    [
+                                                        {text: 'Dismiss', onPress: () => console.log('Dismiss Pressed')},
+                                                    ],
+                                                    { cancelable: false }
+                                                )
                                             }}>
-                                        <Icon name='checkmark' style={{fontSize: 50}}/>
-                                    </Button>
-                                    <PopupDialog
-                                        ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-                                    >
-                                        <View>
-                                            <Text>Hello</Text>
-                                        </View>
-                                    </PopupDialog>
-                                </View>
-                                <View>
+                                        <Text>Yay</Text>
+                                    </Button> :
                                     <Button rounded danger x-large
-                                            style={{height: 70, width: 70, flexDirection: 'row', justifyContent: 'center'}}
+                                            style={{height: 40, width: 110, flexDirection: 'row', justifyContent: 'center'}}
                                             onPress={() => {
-                                                this.adjustVote(-1)
+                                                Alert.alert(
+                                                    "You have already voted!",
+                                                    [
+                                                        {text: 'Dismiss', onPress: () => console.log('Dismiss Pressed')},
+                                                    ],
+                                                    { cancelable: false }
+                                                )
                                             }}>
-                                        <Icon name='close' style={{fontSize: 50}}/>
+                                        <Text>Nay</Text>
+                                    </Button>
+                                }
+                            </View> :
+                            <View>
+                            <View
+                                style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 15, marginBottom: 15}}>
+                                <View style={{marginRight: 15}}>
+                                    <Button bordered rounded success x-large
+                                            style={{height: 40, width: 110, flexDirection: 'row', justifyContent: 'center'}}
+                                            onPress={() => {
+                                                this.voteOnBill(1)
+                                            }}>
+                                        <Text>Yay</Text>
+                                    </Button>
+                                    {/*<PopupDialog*/}
+                                        {/*ref={(popupDialog) => { this.popupDialog = popupDialog; }}*/}
+                                    {/*>*/}
+                                        {/*<View>*/}
+                                            {/*<Text>Hello</Text>*/}
+                                        {/*</View>*/}
+                                    {/*</PopupDialog>*/}
+                                </View>
+                                <View style={{marginLeft: 15}}>
+                                    <Button bordered rounded danger x-large
+                                            style={{height: 40, width: 110, flexDirection: 'row', justifyContent: 'center'}}
+                                            onPress={() => {
+                                                this.voteOnBill(0)
+                                            }}>
+                                        <Text>Nay</Text>
                                     </Button>
                                 </View>
                             </View>
+                                {
+                                    this.state.showMessageBox ?
+                                        <View style={{width: 310, height: 400, marginLeft: 10, marginRight: 10}}>
+                                            <Item regular style={{marginTop: 10}}>
+                                                <Input
+                                                    placeholder='Write a message to your representative!'
+                                                    onChangeText={(val) => {this.handleMessageChange(val)}}
+                                                    style={{flex: 1,
+                                                        height: 150,
+                                                        justifyContent: 'flex-start'}}
+                                                    multiline={true}
+                                                />
+                                            </Item>
+                                            <View style={{marginLeft: 110, marginBottom: 25, marginTop: 10}}>
+                                                <Button bordered rounded info x-large
+                                                        style={{height: 40, width: 110, flexDirection: 'row', justifyContent: 'center'}}
+                                                        onPress={() => { // popup that takes letter body
+                                                            this.initiateFaxRoute()
+                                                        }}>
+                                                    <Text>Send</Text>
+                                                </Button>
+                                            </View>
+                                        </View>
+
+                                        :
+                                        <View style={{marginLeft: 110, marginBottom: 25}}>
+                                            <Button bordered rounded info x-large
+                                                    style={{height: 40, width: 110, flexDirection: 'row', justifyContent: 'center'}}
+                                                    onPress={() => { // popup that takes letter body
+                                                        this.setState({showMessageBox: true});
+                                                        // this.initiateFaxRoute()
+                                                    }}>
+                                                <Text>Message</Text>
+                                            </Button>
+                                        </View>
+                                }
+                            </View>
                         }
                     </ScrollView>
-                    {/*<Tabs renderTabBar={() =>*/}
-                        {/*<ScrollableTab style={styles.tabBackground}/>*/}
-                    {/*} tabBarUnderlineStyle={styles.tabUnderline}>*/}
-                        {/*<Tab heading="TEXT"*/}
-                             {/*tabStyle={styles.tabBackground}*/}
-                             {/*activeTabStyle={styles.tabBackground}*/}
-                             {/*textStyle={styles.tabText}*/}
-                             {/*activeTextStyle={styles.tabText}*/}
-                             {/*scrollEnabled={false}*/}
-                        {/*>*/}
-                            {/*<ScrollView>*/}
-                                {/*/!*<TransactionReceiptSection item={props.item}/>*!/*/}
-                                {/*/!*<TransactionMemoSection item={props.item}/>*!/*/}
-                            {/*</ScrollView>*/}
-                        {/*</Tab>*/}
-                        {/*<Tab heading="MESSAGE"*/}
-                             {/*tabStyle={styles.tabBackground}*/}
-                             {/*activeTabStyle={styles.tabBackground}*/}
-                             {/*textStyle={styles.tabText}*/}
-                             {/*activeTextStyle={styles.tabText}*/}
-                        {/*>*/}
-                            {/*<ScrollView>*/}
-                                {/*/!*<TransactionBudgetSection item={props.item}/>*!/*/}
-                            {/*</ScrollView>*/}
-                        {/*</Tab>*/}
-                    {/*</Tabs>*/}
                 </Container>
             </Container>
         )

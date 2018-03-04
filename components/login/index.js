@@ -39,25 +39,26 @@ export default class Login extends Component {
 
     render() {
         return (
-            <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1}}>
+            <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: "rgba(9, 132, 227, 100)"}}>
                 <View style={{width: 375, height: 75, marginLeft: 15, flexDirection: 'column', justifyContent: 'center'}}>
                     <Button transparent
                             title="backLaunch"
                             onPress={() => { Actions.pop() }}>
-                        <Icon ios="md-close" android="md-close" style={{fontSize: 35}}/>
+                        <Icon ios="md-close" android="md-close" style={{fontSize: 35, color: "white"}}/>
                     </Button>
                 </View>
                 <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1}}>
                     <Item style={{width: 300}}>
-                        <Input placeholder="Email" style={{textAlign: 'center'}} onChangeText={(e) => {this.handleEmailChange(e)}} autoCapitalize = 'none'/>
+                        <Input placeholder="Email" style={{textAlign: 'center', color: "white"}} placeholderTextColor="white" onChangeText={(e) => {this.handleEmailChange(e)}} autoCapitalize = 'none'/>
                     </Item>
                     <Item style={{width: 300}}>
-                        <Input placeholder="Password" secureTextEntry={true} style={{textAlign: 'center'}} onChangeText={(e) => {this.handlePasswordChange(e)}} autoCapitalize = 'none'/>
+                        <Input placeholder="Password" secureTextEntry={true} style={{textAlign: 'center', color: "white"}} placeholderTextColor="white" onChangeText={(e) => {this.handlePasswordChange(e)}} autoCapitalize = 'none'/>
                     </Item>
                     <Button style={styles.button}
                             onPress={() => { this.handleSubmit()}}
                             bordered
-                            dark>
+                            rounded
+                            light>
                         <Text>Log in</Text>
                     </Button>
                 </View>

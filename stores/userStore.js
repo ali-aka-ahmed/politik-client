@@ -7,6 +7,7 @@ export default class User {
     @observable lastName;
     @observable district;
     @observable state;
+    email;
 
     constructor(representativeJSON) {
         for (let property in representativeJSON) {

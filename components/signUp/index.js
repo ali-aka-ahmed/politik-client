@@ -51,36 +51,37 @@ export default class SignUp extends Component {
 
     render() {
         return (
-            <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1}}>
+            <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: "rgba(9, 132, 227, 100)"}}>
                 <View style={{width: 375, height: 75, marginLeft: 15, flexDirection: 'column', justifyContent: 'center'}}>
                     <Button transparent
                             title="backLaunch"
                             onPress={() => { Actions.pop() }}>
-                        <Icon ios="md-close" android="md-close" style={{fontSize: 35}}/>
+                        <Icon ios="md-close" android="md-close" style={{fontSize: 35, color: "white"}}/>
                     </Button>
                 </View>
                 <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1}}>
                     <Item style={{width: 300}}>
-                        <Input placeholder="First Name" style={{textAlign: 'center'}} onChangeText={(e) => {this.handleFirstNameChange(e)}}/>
+                        <Input placeholder="First Name" style={{textAlign: 'center', color: "white"}} placeholderTextColor="white" onChangeText={(e) => {this.handleFirstNameChange(e)}}/>
                     </Item>
                     <Item style={{width: 300}}>
-                        <Input placeholder="Last Name" style={{textAlign: 'center'}} onChangeText={(e) => {this.handleLastNameChange(e)}}/>
-                    </Item>
-
-                    <Item style={{width: 300}}>
-                        <Input placeholder="Address" style={{textAlign: 'center'}} onChangeText={(e) => {this.handleAddressChange(e)}}/>
+                        <Input placeholder="Last Name" style={{textAlign: 'center', color: "white"}} placeholderTextColor="white" onChangeText={(e) => {this.handleLastNameChange(e)}}/>
                     </Item>
 
-                    <Item style={{width: 300}}>
-                        <Input placeholder="Email" style={{textAlign: 'center'}} onChangeText={(e) => {this.handleEmailChange(e)}} autoCapitalize = 'none'/>
+                    <Item style={{width: 300, marginTop: 20, paddingBottom: 10}}>
+                        <Input placeholder="Address" multiline={true} style={{textAlign: 'center', color: "white"}} placeholderTextColor="white" onChangeText={(e) => {this.handleAddressChange(e)}}/>
+                    </Item>
+
+                    <Item style={{width: 300, marginTop: 20}}>
+                        <Input placeholder="Email" style={{textAlign: 'center', color: "white"}} placeholderTextColor="white" onChangeText={(e) => {this.handleEmailChange(e)}} autoCapitalize = 'none'/>
                     </Item>
                     <Item style={{width: 300}}>
-                        <Input placeholder="Password" secureTextEntry={true} style={{textAlign: 'center'}} onChangeText={(e) => {this.handlePasswordChange(e)}} autoCapitalize = 'none'/>
+                        <Input placeholder="Password" secureTextEntry={true} style={{textAlign: 'center', color: "white"}} placeholderTextColor="white" onChangeText={(e) => {this.handlePasswordChange(e)}} autoCapitalize = 'none'/>
                     </Item>
                     <Button style={styles.button}
                             onPress={() => { this.handleSubmit()}}
-                            transparent
-                            dark>
+                            bordered
+                            rounded
+                            light>
                         <Text>Sign Up</Text>
                     </Button>
                 </View>

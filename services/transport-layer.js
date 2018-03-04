@@ -1,4 +1,5 @@
 import axios from "axios";
+import appState from "../stores/appState";
 
 let propublica_inst = axios.create({
     baseURL: 'https://api.propublica.org/congress/v1/',
@@ -6,17 +7,16 @@ let propublica_inst = axios.create({
     headers: {'X-API-Key': 'UaRAYesDNYQSfTiJUjAx5t5ihEubJJuDLtgnP1jF'}
 });
 
-let capitalOne_inst = axios.create({
-    baseURL: 'http://api.reimaginebanking.com/',
-    timeout: 10000
-});
-
-let capitalOne_key = "/?key=50e8829f2eaab27ac2ae6339458730fb"; /* Daryus' API key */
-
 let normal_inst = axios.create({
     baseURL: 'http://localhost:3000',
-    timeout: 10000
+    timeout: 10000,
 });
+
+let auth_inst = axios.create({
+    baseURL: 'http://localhost:3000',
+    timeout: 10000,
+    headers: {'Authorization': appState.token}
+})
 
 
 // ////////////////////////////////////////////////////
@@ -58,12 +58,19 @@ export const createUser = async (firstName, lastName, address, email, password) 
     return responseData.data;
 };
 
+export const voteOnBill = async (id, email, vote) => {
+    console.log("args", {id, email, vote});
+    let responseData = await auth_inst.post('/api/vote-bill', {id, email, vote});
+    console.log(responseData.data)
+    return responseData.data;
+};
+
 // ////////////////////////////////////////////////////
 // ///////////// CREATE-PDF TO SEND TO REP  ///////////
 // ////////////////////////////////////////////////////
 
 export const createLetter = async (sender_name, rep_name, body_letter, street_address, city_state_zip) => {
-    let responseData = await normal_inst.post("/create-pdf",
+    let responseData = await normal_inst.post("/api/create-pdf",
         { "attrs":
             {
                 "sender_name" : sender_name,
@@ -74,12 +81,11 @@ export const createLetter = async (sender_name, rep_name, body_letter, street_ad
             }
         }
     );
-    // console.log(responseData.data.filename);
-    return responseData.data.filename; // returns absolute path i.e. '/Users/ali/Google Drive/cs/politik/express-babel/letters/Ali Ahmed.pdf'
+    return responseData; // returns absolute path i.e. '/Users/ali/Google Drive/cs/politik/express-babel/letters/Ali Ahmed.pdf'
 };
 
-export const sendFax = async () => {
-    // let responseData = await normal_inst.post("/send-fax", { path_to_letter: path_to_letter, rep_id: rep_id });
-    let responseData = await normal_inst.get("/send-fax");
+export const sendFax = async (path_to_letter, rep_number) => {
+    let responseData = await normal_inst.post("/api/send-fax", { path_to_letter: path_to_letter, rep_number: rep_number });
+    // let responseData = await normal_inst.get("/send-fax");
     return responseData.data
 };
